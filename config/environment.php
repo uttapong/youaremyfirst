@@ -29,6 +29,7 @@ return [
     'hosts' => [
 
         'localhost' => 'dev',
+        'www.youaremyfirst.com' => 'production',
 
     ],
 
