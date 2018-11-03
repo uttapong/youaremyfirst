@@ -1,0 +1,31 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:5.7
+      container_name: youaremyfirst-mysql
+      working_dir: /var/www/html
+      volumes:
+        - .:/var/www/html
+      environment:
+        - MYSQL_ROOT_PASSWORD=urpassword
+        - MYSQL_DATABASE=youaremyfirst
+        - MYSQL_USER=uradmin
+        - MYSQL_PASSWORD=urpassword
+      ports:
+        - "3306:3306"
+
+    php-fpm:
+      build: .
+      container_name: youaremyfirst-php-fpm
+      working_dir: /var/www/html
+      volumes:
+        - ./:/var/www/html
+        - ./php.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+      ports:
+        - "80:80"
+        
+
