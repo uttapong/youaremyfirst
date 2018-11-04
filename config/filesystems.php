@@ -50,8 +50,8 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key'    => 'AKIAJM5RUGB5NJFZEZ4A',
-            'secret' => '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',
+            'key'    => '',
+            'secret' => '',
             'region' => 'ap-southeast-1',
             'bucket' => 'youaremyfirst.com',
         ],
