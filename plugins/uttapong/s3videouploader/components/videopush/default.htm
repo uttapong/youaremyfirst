@@ -1,0 +1,188 @@
+<script>
+function validate_form(form){
+    var $inputs = $('#video-form :input');
+
+    // not sure if you wanted this, but I thought I'd add it.
+    // get an associative array of just the values.
+    var values = {};
+    $inputs.each(function() {
+        if(!$(this).val()) {
+            var inst = $('[data-remodal-id=err-modal]').remodal();
+            inst.open();
+            return false;
+        }
+    });
+    return true;
+}
+$(document).ready(function(){
+    $('form').submit(function () {
+    if($('#accept:checked').length<=0){
+        var acceptModal = $('[data-remodal-id=accept-modal]').remodal();
+            acceptModal.open();
+            return false;
+    }
+    var $inputs = $('input[required="required"]');
+
+// not sure if you wanted this, but I thought I'd add it.
+// get an associative array of just the values.
+    var values = {};
+    $inputs.each(function() {
+        if(!$(this).val()) {
+            var inst = $('[data-remodal-id=err-modal]').remodal();
+            inst.open();
+            return false;
+        }
+    });
+    $(this).request('onSave')
+})
+})
+</script>
+<div class="body-content bg2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mobile-head text-center">
+                <h3>อัพโหลดคลิป</h3>
+             </div>
+            <div class="col-md-12 push-down-half round-border p-4">
+              <div class="row justify-content-center"></div>
+                <div class="paragraph col-md-8 col-sm-12 offset-md-2 col-sm-8 offset-sm-2">
+                        <ul>
+                                {% for error in errors.all() %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% flash success %}
+        <p class='alert alert-success'>{{ message }}</p>
+    {% endflash %}
+    {{ form_open({ request: 'onHandleForm', enctype:"multipart/form-data", method:"post" }) }}
+                    
+                    <div class="form-group ">
+                        <input name="name" type="text" class="form-control" id="name" placeholder="ชื่อคลิปวิดีโอ" required="required">
+                    </div>
+                    <div class="form-group ">
+                        <input name="submitter" type="text" class="form-control" id="submitter" placeholder="ชื่อสกุล" required="required">
+                    </div>
+                    <div class="form-group ">
+                        <input name="tel" type="text" class="form-control" id="tel" placeholder="เบอร์โทรศัพท์" required="required">
+                    </div>
+                    <div class="form-group ">
+                        <input name="email" type="email" class="form-control" id="tel" placeholder="อีเมล์" required="required">
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-file ">
+                          <input type="file" class="form-control" name="video" id="inputGroupFile01" required="required">
+                          <label class="custom-file-label" for="inputGroupFile01">เลือกไฟล์</label>
+                        </div>
+                      </div>
+                      <div class="form-check">
+                        <input name="accept" type="checkbox" class="form-check-input" id="accept">
+                        <label class="form-check-label" for="exampleCheck1">ข้าพเจ้ายอมรับกติกาและเงื่อนไขการส่งผลงานเข้าร่วมกิจกรรม โดยมีเนื้อหา <a href="" data-remodal-target="rules-modal">ตามนี้</a></label>
+                      </div>
+                      <div class="form-group text-center mt-3">
+                          <button type="submit" class="button">อัพโหลดคลิป</button>
+                      </div>
+                      {{ form_close() }}
+                </div>
+              </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="remodal" data-remodal-id="err-modal"
+  data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <p>
+    กรุณากรอกข้อมูลให้ครบทุกช่อง
+  </p>
+  <br>
+  <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+</div>
+<div class="remodal" data-remodal-id="accept-modal"
+  data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <p>
+    กรุณายอมรับกติกาและเงื่อนไขก่อนการอัพโหลด
+  </p>
+  <br>
+  <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+</div>
+
+<div class="remodal" data-remodal-id="rules-modal"
+  data-remodal-options="hashTracking: false, closeOnOutsideClick: true">
+
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <div class="row p-2">
+        <div class="col-md-6 text-left">
+                <div class="">
+                  <h4>วิธีการส่งคลิปวิดีโอเข้าร่วมโครงการ</h4>
+                  <ul>
+                      
+                      <li>ส่งคลิปวิดีโอที่มีเนื้อหาเสนอถึงคนแรกที่เข้าไปช่วยเหลือผู้อื่นที่กำลังต้องการความช่วยเหลือ ทางเว็บไซต์ www.YouAreMyFirst.com</li>
+                      
+                      <li>ผู้เข้าร่วมโครงการจะต้องส่งผลงานในรูปแบบของไฟล์วีดีโอนามสกุล .MP4 และขนาดไฟล์จะต้องไม่เกิน 100 MB</li>
+                      
+                      <li>คลิปวีดีโอที่ได้รับเลือก จำนวน 10 คลิป จะได้รับเงินรางวัล รางวัลละ 20,000 บาท รวมมูลค่าทั้งสิ้น 200,000 บาท</li>
+                      
+                      <li>ตัดสินโดยคณะกรรมการจากบริษัท อยุธยา แคปปิตอล เซอร์วิสเซส จำกัด โดยพิจารณาจากความเหมาะสมของเนื้อหาเหตุการณ์จริง</li>
+                      
+                      <li>คลิปที่ผ่านการคัดเลือกจำนวนทั้งสิ้น 10 คลิปนี้จะนำมาตัดต่อเป็นภาพยนตร์โฆษณาของกิจกรรม เพื่อเผยแพร่ต่อไป</li>
+                  </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-left">
+                <div class="">
+                  <h4>กำหนดการ</h4>
+                  <ul>
+                      <li> ผู้เข้าร่วมโครงการสามารถส่งผลงานได้ตั้งแต่วันที่ 7 พฤศจิกายน 2561 หมดเขตส่งผลงานวันที่ 31 มกราคม 2562 </li>
+<li> คัดเลือกผลงานที่ผ่านการเข้ารอบ 10 ทีม วันที่ 12 กุมภาพันธ์ 2562</li>
+<li> เผยแพร่ผลงานที่ผ่านการคัดเลือกทาง www.firstchoice.co.th วันที่ 15 กุมภาพันธ์ 2562</li>
+<li> ประกาศผลวันที่ 15 กุมภาพันธ์ 2562</li>
+<li> คลิปที่ผ่านการคัดเลือก รับรางวัลในวันที่ 28 กุมภาพันธ์ 2562 ณ อาคารกรุงศรีเพลินจิต ทาวเวอร์ 550 ถนนเพลินจิต แขวงลุมพินี เขตปทุมวัน กรุงเทพมหานคร</li>
+                  </ul>
+                  <p></p>
+                  <p class="mt-2">สอบถามรายละเอียดและเงื่อนไขเพิ่มเติมที่ www.firstchoice.co.th  Facebook Krungsri First Choice หรือโทร 02 345 678</p>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+                <div class="col-md-12  mt-2 text-left p-2">
+                        <div class="">
+                          <h4>เงื่อนไขการส่งคลิปวิดีโอ</h4>
+                          <ul>
+                            <li>สิทธิ์ในคลิปวิดีโอที่ส่งเข้าร่วมโครงการต้องเป็นของผู้เข้าร่วมโครงการ ไม่ได้ทำซ้ำ คัดลอก เลียนแบบ หรือดัดแปลงจากผลงานของผู้อื่น หรือไม่เป็นการละเมิดกฎหมายทรัพย์สินทางปัญญา หรือ พรบ.คอมพิวเตอร์ และต้องไม่เคยได้รับรางวัล หรือได้รับการเผยแพร่จากที่ใดมาก่อน</li>
+                                <li>คลิปวิดีโอต้องไม่มีเนื้อหาที่ขัดต่อความมั่นคงของชาติ คุณธรรมและจริยธรรม หรือขัดต่อความสงบเรียบร้อยหรือศีลธรรมอันดีของประชาชน และจะต้องไม่มีลักษณะลบหลู่ ดูหมิ่น หมิ่นประมาท ต่อสถาบันชาติ ศาสนา พระมหากษัตริย์ และต้องไม่สร้างความแตกแยก รวมถึง ต้องไม่ทำให้ผู้อื่นได้รับความเสื่อมเสียชื่อเสียง เกียรติคุณ ถูกดูหมิ่น หรือ ถูกเกลียดชัง</li>
+                                <li>คลิปวิดีโอที่ส่งเข้าร่วมโครงการทุกชิ้น ไม่ว่าจะได้รับการคัดเลือกจากบริษัทหรือไม่ ให้ตกเป็นสิทธิของบริษัท อยุธยา แคปปิตอล เซอร์วิสเซส จำกัด และบริษัทในเครือ โดยขอสงวนสิทธิ์ในการเผยแพร่ผลงานต่อสาธารณชนทุกช่องทาง ทุกชนิด </li>
+                                <li>บริษัทและบริษัทในเครือมีสิทธิในคลิปวิดีโอที่ส่งเข้าร่วมโครงการทุกชิ้น รวมทั้งมีสิทธิในการเผยแพร่ภาพนิ่งและภาพเคลื่อนไหวของผู้เข้าร่วมโครงการ  เพื่อประชาสัมพันธ์กิจกรรมของโครงการโดยมิต้องจ่ายค่าตอบแทนให้กับผู้เข้าร่วมโครงการ</li>
+                                <li>บริษัทขอสงวนสิทธิในการตัดสิทธิผู้เข้าร่วมโครงการ หรือเรียกรางวัลคืนได้ทันทีโดยไม่ต้องชี้แจงเหตุผล หากตรวจสอบพบว่าผู้เข้าร่วมโครงการไม่ปฏิบัติตามกติกาหรือมีข้อความใดเป็นเท็จ โดยผู้เข้าร่วมโครงการไม่มีสิทธิ์เรียกค่าเสียหายไม่ว่ากรณีใด ๆ ทั้งสิ้น</li>
+                                <li>บริษัทขอสงวนสิทธิในการชี้แจงเหตุผลสำหรับคลิปวิดีโอที่ไม่ได้รับการคัดเลือกในทุกกรณี</li>
+                                <li>กรณีผู้ได้รับรางวัล จะต้องชำระภาษี ณ ที่จ่าย 5% ของมูลค่าของรางวัล</li>
+                                <li>ผู้เข้าร่วมโครงการจะต้องรับผิดชอบต่อความเสียหายอันเกิดจากการฟ้องร้องโดยบุคคลที่สาม อันเนื่องมาจากการละเมิดทรัพย์สินทางปัญญาหรือกรณีอื่นใด ในกรณีที่บริษัทนำคลิปวิดีโอที่เข้าร่วมโครงการไปเผยแพร่ ประชาสัมพันธ์ หรือนำไปใช้งานใดๆ ก็ตาม</li>
+                                <li>บริษัทไม่รับผิดชอบค่าใช้จ่ายที่เกิดขึ้นจากทุกขั้นตอนในการส่งคลิปวิดีโอเข้าร่วมโครงการ</li>
+                                <li>ผลการพิจารณาตัดสินของคณะกรรมการ ถือเป็นที่สิ้นสุด ผู้ดำเนินโครงการสงวนสิทธิที่จะไม่ตอบปัญหาข้อสงสัยใด ๆ และการตัดสินของคณะกรรมการไม่สามารถโต้แย้งได้</li>
+                                <li>ในการส่งคลิปวิดีโอเข้าร่วมโครงการนี้  ผู้เข้าร่วมโครงการตกลงและยอมรับเงื่อนไขที่บริษัทกำหนดขึ้นทุกประการ</li>
+                          </ul>
+                        </div>
+                    </div>
+          </div>
+  </div>
+  <br>
+  <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+</div>
+<style>
+    .remodal h4{
+        color: #000 !important;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .remodal p,.remodal li{
+        color: #000 !important;
+        font-size:.9rem;
+    }
+    .remodal li{
+        
+            list-style-type: disc;
+    }
+</style>

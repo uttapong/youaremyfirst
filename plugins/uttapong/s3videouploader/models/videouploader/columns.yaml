@@ -1,0 +1,25 @@
+columns:
+    id:
+        label: id
+        type: number
+    name:
+        label: name
+        type: text
+    submitter:
+        label: submitter
+        type: text
+    email:
+        label: email
+        type: text
+    tel:
+        label: tel
+        type: text
+    s3url:
+        label: s3url
+        type: text
+    status:
+        label: status
+        type: text
+    created_at:
+        label: created_at
+        type: datetime

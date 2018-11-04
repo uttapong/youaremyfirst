@@ -1,0 +1,11 @@
+plugin:
+    name: 'uttapong.s3videouploader::lang.plugin.name'
+    description: 'uttapong.s3videouploader::lang.plugin.description'
+    author: uttapong
+    icon: oc-icon-video-camera
+    homepage: ''
+navigation:
+    video-menu-item:
+        label: 'All Videos'
+        url: uttapong/s3videouploader/s3videouploader
+        icon: icon-video-camera

@@ -4,9 +4,13 @@ description = "Default layout"
 <html lang="en">
 <head>
 {% partial 'site/head' %}
+ {% styles %}
+ {% scripts %}
+{% partial 'site/script' %}
+{% framework extras %}
 </head>
 <body>
      {% partial 'site/header' %}
      {% page %}
-      {% partial 'site/script' %}
+      
 </body>

@@ -1,0 +1,10 @@
+name: S3VideoUploader
+form: $/uttapong/s3videouploader/models/videouploader/fields.yaml
+modelClass: Uttapong\S3videouploader\Models\VideoUploader
+defaultRedirect: uttapong/s3videouploader/s3videouploader
+create:
+    redirect: 'uttapong/s3videouploader/s3videouploader/update/:id'
+    redirectClose: uttapong/s3videouploader/s3videouploader
+update:
+    redirect: uttapong/s3videouploader/s3videouploader
+    redirectClose: uttapong/s3videouploader/s3videouploader

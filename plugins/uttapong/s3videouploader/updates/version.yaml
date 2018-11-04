@@ -1,0 +1,5 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table uttapong_s3videouploader_'
+    - builder_table_create_uttapong_s3videouploader_.php

@@ -1,0 +1,12 @@
+list: $/uttapong/s3videouploader/models/videouploader/columns.yaml
+modelClass: Uttapong\S3videouploader\Models\VideoUploader
+title: S3VideoUploader
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'uttapong/s3videouploader/s3videouploader/update/:id'

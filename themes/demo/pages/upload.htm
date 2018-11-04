@@ -2,5 +2,125 @@ title = "อัพโหลดคลิป"
 url = "/upload"
 layout = "default"
 is_hidden = 0
+
+[videopush]
 ==
-<div class="text-center body-content bg2 col-12 push-down" style="padding-top: 100px;"><h5>เร็วๆนี้</h5></div>
+<?php
+use Uttapong\S3VideoUploader\Models\VideoUploader;
+
+function onHandleForm()
+{
+        $validator = Validator::make(
+            [
+                'name' => Input::get('name'),
+                'submitter' => Input::get('submitter'),
+                'tel' => Input::get('tel'),
+                'email' => Input::get('email'),
+                'video' => Input::get('email')
+            ],
+            [
+                'name' => 'required',
+                'submitter' => 'required',
+                'tel' => 'required',
+                'video' => 'required',
+                'email' => 'required|email'
+            ]
+        );
+
+        if($validator->fails()){
+            return Redirect::back()->withErrors($validator);
+            
+        } else {
+            $vars = ['name' => Input::get('name'), 'email' => Input::get('email'), 'content' => Input::get('content')];
+
+        $video = new VideoUploader();
+        $video->name = Input::get('name');
+        $video->submitter = Input::get('submitter');
+        $video->email = Input::get('email');
+        $video->tel = Input::get('tel');
+
+        // die('zadfadfadf');
+        // $video->submitter = Input::get('submitter');
+        if (Input::file('video')->isValid()) {
+            $fileName=uniqid().".".Input::file('video')->getClientOriginalExtension();
+            $folder="./uploads/".date("Y-m-d")."/";
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);  //create directory if not exist
+            }
+
+            $disk = Storage::disk('s3');
+            $disk->put($folder.$fileName, file_get_contents(Input::file('video')->getRealPath()),'public-read');
+
+            if(Input::file('video')->move($folder, $fileName)){
+                $video->filename = $fileName;
+                $video->s3url = $folder.$fileName;
+                $video->save();
+                Flash::success('อัพโหลดคลิปวิดีโอสำเร็จ');
+                return Redirect::back();
+             }
+             else return Redirect::back()->withErrors(['message', 'การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง']);
+            //$disk = Storage::disk('s3');
+            //$disk->put("./uploads/".$fileName, Input::file('video'));
+
+            // if(Input::file('video')->move($folder, $fileName)){
+            //     $video->filename = $filename;
+            //     $video->s3url = $folder.$filename;
+            // }
+            // else{
+            //     return Redirect::back()->withErrors(['message', 'การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง']);
+            // }
+            
+            //
+        }
+        //$disk= Storage::disk('s3');
+        //$disk->put($targetFile, file_get_contents($sourceFile));
+
+        
+        }
+}
+?>
+==
+{% component "videopush" %}
+<!-- <div class="body-content bg2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mobile-head text-center">
+                        <h3>อัพโหลดคลิป</h3>
+                     </div>
+                    <div class="col-md-12 push-down-half round-border p-4">
+                      <div class="row justify-content-center"></div>
+                        <div class="paragraph col-md-8 col-sm-12 offset-md-2 col-sm-8 offset-sm-2">
+                            <form action="" method="post" enctype="multipart/form-data">
+                            <div class="form-group ">
+                                <input name="name" type="text" class="form-control" id="name" placeholder="ชื่อคลิปวิดีโอ">
+                            </div>
+                            <div class="form-group ">
+                                <input name="submitter" type="text" class="form-control" id="submitter" placeholder="ชื่อสกุล">
+                            </div>
+                            <div class="form-group ">
+                                <input name="tel" type="text" class="form-control" id="tel" placeholder="เบอร์โทรศัพท์">
+                            </div>
+                            <div class="form-group ">
+                                <input name="email" type="email" class="form-control" id="tel" placeholder="อีเมล์">
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-file ">
+                                  <input type="file" class="form-control" name="video" id="inputGroupFile01">
+                                  <label class="custom-file-label" for="inputGroupFile01">เลือกไฟล์</label>
+                                </div>
+                              </div>
+                              <div class="form-check">
+                                <input name="accept" type="checkbox" class="form-check-input" id="accept">
+                                <label class="form-check-label" for="exampleCheck1">ข้าพเจ้ายอมรับกติกาและเงื่อนไขการส่งผลงานเข้าร่วมกิจกรรม โดยมีเนื้อหา <a href="">ตามนี้</a></label>
+                              </div>
+                              <div class="form-group text-center mt-3">
+                                  <button type="submit" class="button">อัพโหลดคลิป</button>
+                              </div>
+                              </form>
+                        </div>
+                      </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>-->
