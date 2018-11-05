@@ -16,25 +16,37 @@ function validate_form(form){
 }
 $(document).ready(function(){
     $('form').submit(function () {
-    if($('#accept:checked').length<=0){
-        var acceptModal = $('[data-remodal-id=accept-modal]').remodal();
-            acceptModal.open();
-            return false;
-    }
-    var $inputs = $('input[required="required"]');
-
-// not sure if you wanted this, but I thought I'd add it.
-// get an associative array of just the values.
-    var values = {};
-    $inputs.each(function() {
-        if(!$(this).val()) {
-            var inst = $('[data-remodal-id=err-modal]').remodal();
-            inst.open();
-            return false;
+        if($('#accept:checked').length<=0){
+            var acceptModal = $('[data-remodal-id=accept-modal]').remodal();
+                acceptModal.open();
+                return false;
         }
+        if($("#videoFile")[0].files[0].size>102400)
+        {
+            var fileModal = $('[data-remodal-id=file-modal]').remodal();
+                $("#videoFile").val('');
+                fileModal.open();
+                return false;
+
+        }
+        var $inputs = $('input[required="required"]');
+
+    // not sure if you wanted this, but I thought I'd add it.
+    // get an associative array of just the values.
+        var values = {};
+        $inputs.each(function() {
+            if(!$(this).val()) {
+                var inst = $('[data-remodal-id=err-modal]').remodal();
+                inst.open();
+                return false;
+            }
+        });
+        $('#uploadBtn').html("กำลังอัพโหลด...");
+        $(this).request('onSave')
     });
-    $(this).request('onSave')
-})
+    $('#videoFile').change(function () {
+        $('#fileLabel').html("&#10003; "+$(this).val().split('\\').pop())
+    });
 })
 </script>
 <div class="body-content bg2">
@@ -70,8 +82,8 @@ $(document).ready(function(){
                     </div>
                     <div class="form-group">
                         <div class="custom-file ">
-                          <input type="file" class="form-control" name="video" id="inputGroupFile01" required="required">
-                          <label class="custom-file-label" for="inputGroupFile01">เลือกไฟล์</label>
+                          <input type="file" class="form-control" name="video" id="videoFile" required="required" accept="video/*" size="104857600">
+                          <label id="fileLabel" class="custom-file-label" for="videoFile">เลือกไฟล์</label>
                         </div>
                       </div>
                       <div class="form-check">
@@ -79,7 +91,7 @@ $(document).ready(function(){
                         <label class="form-check-label" for="exampleCheck1">ข้าพเจ้ายอมรับกติกาและเงื่อนไขการส่งผลงานเข้าร่วมกิจกรรม โดยมีเนื้อหา <a href="" data-remodal-target="rules-modal">ตามนี้</a></label>
                       </div>
                       <div class="form-group text-center mt-3">
-                          <button type="submit" class="button">อัพโหลดคลิป</button>
+                          <button id="uploadBtn" type="submit" class="button">อัพโหลดคลิป</button>
                       </div>
                       {{ form_close() }}
                 </div>
@@ -105,6 +117,16 @@ $(document).ready(function(){
   <button data-remodal-action="close" class="remodal-close"></button>
   <p>
     กรุณายอมรับกติกาและเงื่อนไขก่อนการอัพโหลด
+  </p>
+  <br>
+  <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+</div>
+<div class="remodal" data-remodal-id="file-modal"
+  data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <p>
+    ขนาดไฟล์เกิน 100 MB
   </p>
   <br>
   <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
