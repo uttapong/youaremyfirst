@@ -42,8 +42,7 @@ class VideoPush extends ComponentBase
             return Redirect::back()->withErrors($validator);
             
         } else {
-            $vars = ['name' => Input::get('name'), 'email' => Input::get('email'), 'content' => Input::get('content')];
-
+           
         $video = new VideoUploader();
         $video->name = Input::get('name');
         $video->submitter = Input::get('submitter');
@@ -52,19 +51,21 @@ class VideoPush extends ComponentBase
 
         // die('zadfadfadf');
         // $video->submitter = Input::get('submitter');
+        if(!Input::has('video')){
+            Flash::error('การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+                return Redirect::back();
+        }
         if (Input::file('video')->isValid()) {
             $newfilename=uniqid().".".Input::file('video')->getClientOriginalExtension();
             $folder="/".date("Y-m-d")."/";
-            $result=Input::file('video')->move($folder, $fileName);
-            print_r($result);
-            die();
-            // if(Input::file('video')->move($folder, $fileName)){
-            //     $video->filename = $filename;
-            //     $video->s3url = $folder.$filename;
-            // }
-            // else{
-            //     return Redirect::back()->withErrors(['message', 'การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง']);
-            // }
+            if(Input::file('video')->move($folder, $fileName)){
+                $video->filename = $filename;
+                $video->s3url = $folder.$filename;
+            }
+            else{
+                Flash::error('การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+                return Redirect::back();
+            }
             
             //
         }

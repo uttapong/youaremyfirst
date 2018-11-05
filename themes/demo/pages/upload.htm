@@ -39,8 +39,6 @@ function onHandleForm()
         $video->email = Input::get('email');
         $video->tel = Input::get('tel');
 
-        // die('zadfadfadf');
-        // $video->submitter = Input::get('submitter');
         if (Input::file('video')->isValid()) {
             $fileName=uniqid().".".Input::file('video')->getClientOriginalExtension();
             $folder="./uploads/".date("Y-m-d")."/";
@@ -51,29 +49,23 @@ function onHandleForm()
             $disk = Storage::disk('s3');
             $disk->put($folder.$fileName, file_get_contents(Input::file('video')->getRealPath()),'public-read');
 
+            if(!Input::has('video')){
+                Flash::error('การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+                    return Redirect::back();
+            }
             if(Input::file('video')->move($folder, $fileName)){
                 $video->filename = $fileName;
-                $video->s3url = $folder.$fileName;
+                $video->s3url = "/uploads/".date("Y-m-d")."/".$fileName;
                 $video->save();
                 Flash::success('อัพโหลดคลิปวิดีโอสำเร็จ');
                 return Redirect::back();
              }
-             else return Redirect::back()->withErrors(['message', 'การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง']);
-            //$disk = Storage::disk('s3');
-            //$disk->put("./uploads/".$fileName, Input::file('video'));
-
-            // if(Input::file('video')->move($folder, $fileName)){
-            //     $video->filename = $filename;
-            //     $video->s3url = $folder.$filename;
-            // }
-            // else{
-            //     return Redirect::back()->withErrors(['message', 'การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง']);
-            // }
+             else {
+                Flash::error('การอัพโหลดไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+                return Redirect::back();
+             }
             
-            //
         }
-        //$disk= Storage::disk('s3');
-        //$disk->put($targetFile, file_get_contents($sourceFile));
 
         
         }

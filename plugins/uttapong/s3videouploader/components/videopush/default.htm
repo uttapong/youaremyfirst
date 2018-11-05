@@ -21,14 +21,11 @@ $(document).ready(function(){
                 acceptModal.open();
                 return false;
         }
-        if($("#videoFile")[0].files[0].size>102400)
-        {
-            var fileModal = $('[data-remodal-id=file-modal]').remodal();
-                $("#videoFile").val('');
-                fileModal.open();
-                return false;
+        // if($("#videoFile")[0].files[0].size>102400)
+        // {
+            
 
-        }
+        // }
         var $inputs = $('input[required="required"]');
 
     // not sure if you wanted this, but I thought I'd add it.
@@ -46,8 +43,42 @@ $(document).ready(function(){
     });
     $('#videoFile').change(function () {
         $('#fileLabel').html("&#10003; "+$(this).val().split('\\').pop())
+        // console.log(this.files[0].size);
+        if(this.files[0].size>102400 || !isVideo(this.files[0].name)){
+            var fileModal = $('[data-remodal-id=file-modal]').remodal();
+                $("#videoFile").val('');
+                $('#fileLabel').html('เลือกไฟล์ใหม่');
+                fileModal.open();
+                return false;
+        }
+        
     });
 })
+
+function getExtension(filename) {
+    var parts = filename.split('.');
+    return parts[parts.length - 1];
+}
+
+function isVideo(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+    case 'm4v':
+    case 'avi':
+    case 'mpg':
+    case 'mp4':
+    case 'mov':
+    case 'flv':
+    case 'ogg':
+    case 'wmv':
+    case 'mpeg':
+    case '3gp':
+        // etc
+        return true;
+    }
+    return false;
+}
+
 </script>
 <div class="body-content bg2">
     <div class="container">
@@ -66,6 +97,9 @@ $(document).ready(function(){
                             {% flash success %}
         <p class='alert alert-success'>{{ message }}</p>
     {% endflash %}
+    {% flash error %}
+        <p class='alert alert-danger'>{{ message }}</p>
+    {% endflash %}
     {{ form_open({ request: 'onHandleForm', enctype:"multipart/form-data", method:"post" }) }}
                     
                     <div class="form-group ">
@@ -82,7 +116,7 @@ $(document).ready(function(){
                     </div>
                     <div class="form-group">
                         <div class="custom-file ">
-                          <input type="file" class="form-control" name="video" id="videoFile" required="required" accept="video/*" size="104857600">
+                          <input type="file" class="form-control" name="video" id="videoFile" required="required"  size="104857600">
                           <label id="fileLabel" class="custom-file-label" for="videoFile">เลือกไฟล์</label>
                         </div>
                       </div>
@@ -126,7 +160,7 @@ $(document).ready(function(){
 
   <button data-remodal-action="close" class="remodal-close"></button>
   <p>
-    ขนาดไฟล์เกิน 100 MB
+    ไฟล์ที่อัพโหลดต้องเป็นไฟล์วิดีโอขนาดไฟล์เกิน 100 MB
   </p>
   <br>
   <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
