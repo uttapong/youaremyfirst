@@ -39,7 +39,6 @@ $(document).ready(function(){
             }
         });
         $('#uploadBtn').html("กำลังอัพโหลด...");
-        $(this).request('onSave')
     });
     $('#videoFile').change(function () {
         $('#fileLabel').html("&#10003; "+$(this).val().split('\\').pop())
