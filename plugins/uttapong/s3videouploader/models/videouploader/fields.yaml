@@ -14,6 +14,12 @@ fields:
         span: left
         disabled: 1
         type: text
+    s3url:
+        label: 'Video Preview'
+        span: left
+        disabled: 1
+        type: partial
+        path: ~/plugins/uttapong/s3videouploader/models/videouploader/videopreview.htm
     status:
         label: 'Approve Status'
         options:
