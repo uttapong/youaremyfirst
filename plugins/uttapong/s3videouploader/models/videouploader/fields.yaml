@@ -6,12 +6,22 @@ fields:
         type: text
     name:
         label: 'Video Name'
-        span: left
+        span: right
         disabled: 1
         type: text
     submitter:
         label: 'Submitter Name'
-        span: left
+        span: auto
+        disabled: 1
+        type: text
+    created_at:
+        label: 'Submitted Date'
+        mode: datetime
+        span: right
+        type: datepicker
+    filename:
+        label: 'File Name'
+        span: auto
         disabled: 1
         type: text
     s3url:
