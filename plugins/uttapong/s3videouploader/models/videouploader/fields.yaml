@@ -24,6 +24,11 @@ fields:
         span: auto
         disabled: 1
         type: text
+    thumbnail:
+        label: 'Thumbnail Image'
+        mode: image
+        span: auto
+        type: mediafinder
     s3url:
         label: 'Video Preview'
         span: left

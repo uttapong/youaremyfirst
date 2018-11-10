@@ -11,9 +11,6 @@ columns:
     email:
         label: email
         type: text
-    tel:
-        label: tel
-        type: text
     s3url:
         label: s3url
         type: text

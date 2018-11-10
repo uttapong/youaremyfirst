@@ -3,3 +3,12 @@
 1.0.2:
     - 'Created table uttapong_s3videouploader_'
     - builder_table_create_uttapong_s3videouploader_.php
+1.0.3:
+    - 'Updated table uttapong_s3videouploader_'
+    - builder_table_update_uttapong_s3videouploader_.php
+1.0.4:
+    - 'Updated table uttapong_s3videouploader_'
+    - builder_table_update_uttapong_s3videouploader__2.php
+1.0.5:
+    - 'Updated table uttapong_s3videouploader_'
+    - builder_table_update_uttapong_s3videouploader__3.php
