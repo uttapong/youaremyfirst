@@ -2,6 +2,9 @@
 
 use Backend\Classes\Controller;
 use BackendMenu;
+use Uttapong\S3VideoUploader\Models\VideoUploader;
+use Input;
+
 
 class S3VideoUploader extends Controller
 {

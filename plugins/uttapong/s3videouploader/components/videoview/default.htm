@@ -1,0 +1,108 @@
+<div class="body-content bg2">
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12 mobile-head text-center">
+                        <h3>รวมคลิป</h3>
+                     </div>
+                    <div class="col-md-12 mt-4 round-border">
+                        <div class="row" id="allVideos">
+                                {% for video in videos %}
+                                
+                            
+                          <div class="col-md-4 p-4">
+                            <video  class="ur-video" data-url="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com{{ video.s3url }}">
+                            <source src="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com{{ video.s3url }}" type="video/mp4" />
+                            </video>
+                            <div class=video-caption>
+                                <p>{{ video.name }}</p>
+                                <p>{{ video.submitter }}</p>
+                                <p>{{ video.created_at }}</p>
+                              </div>
+                          </div>
+                          {% endfor %}
+                        </div>
+                    </div>
+                   
+            <form style="width: 100%;">
+             <div class="form-group text-center mt-3">
+                    <button id="viewMore" type="submit" class="button">ดูเพิ่ม</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="remodal" data-remodal-id="video-modal"
+        data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+      
+        <button data-remodal-action="close" class="remodal-close"></button>
+        <!-- <h4>Video</h4> -->
+       <div id="video-player">
+          <video id="my-player" class="video video-js" data-setup='{}'>ws
+              </video>
+       </div>
+        <br>
+        <button data-remodal-action="confirm" class="remodal-confirm">ปิด</button>
+      </div>
+<script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
+<script>
+        var page=1;
+        var player=null;
+      $(document).ready(function(){
+        $('#viewMore').click(function(e){
+            e.preventDefault();
+            $('form').request('onFetch', {
+                data: {page: ++page},
+                success: function(data) {
+                    console.log(data)
+                    if(data.lastPage==1){
+                        $('#viewMore').attr('disabled','disabled');
+                    }
+                    $.each(data.videos, function( index, row ) {
+                        // console.log(row)
+                        $('#allVideos').append('<div class="col-md-4 p-4"><video  onclick="watchVideo(this,\'https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'\')" class="ur-video" data-url="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'"><source src="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'" type="video/mp4" /> </video><div class=video-caption><p>'+row.name+'</p><p>'+row.submitter+'</p><p>'+row.created_at+'</p></div></div>')
+                    });
+                }
+            })
+        })
+        
+
+        
+        $('.ur-video').click(function(e){
+            e.preventDefault();
+            watchVideo(e,$(this).data('url'));
+        })
+      });
+      function watchVideo(e,url){
+        if(!player)player=videojs('my-player');
+
+                e = e || window.event;
+                // e.preventDefault();
+                var videoModal = $('[data-remodal-id=video-modal]').remodal();
+              //   $("#video-player").val('');
+                player.reset();
+                // var video = document.getElementById('video');
+                // video.src = $(this).data('url');
+                console.log(url);
+                player.src(url)
+                player.play();
+              //  video.play();
+              //   // $('#fileLabel').html('เลือกไฟล์ใหม่');
+                videoModal.open();
+                return false;
+      }
+</script>
+<style>
+    .remodal h4{
+        color: #000 !important;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .remodal p,.remodal li{
+        color: #000 !important;
+        font-size:.9rem;
+    }
+    .remodal li{
+        
+            list-style-type: disc;
+    }
+</style>

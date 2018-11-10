@@ -8,6 +8,7 @@ class Plugin extends PluginBase
     {
         return [
             'Uttapong\S3VideoUploader\Components\VideoPush' => 'videopush',
+            'Uttapong\S3VideoUploader\Components\VideoView' => 'videoview'
         ];
     }
 
