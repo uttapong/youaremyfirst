@@ -29,6 +29,16 @@ fields:
         mode: image
         span: auto
         type: mediafinder
+    email:
+        label: Email
+        span: auto
+        disabled: 1
+        type: text
+    tel:
+        label: Tel
+        span: auto
+        disabled: 1
+        type: text
     s3url:
         label: 'Video Preview'
         span: left
