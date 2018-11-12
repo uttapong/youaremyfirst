@@ -10,7 +10,7 @@
                                 
                             
                           <div class="col-md-4 p-4">
-                            <video  preload="metadata" class="ur-video" 
+                            <video  preload="auto" class="ur-video" 
                             {% if video.thumbnail %}
                             poster="{{ video.thumbnail | media }}"
                             {% endif %}
@@ -47,6 +47,7 @@
         <br>
         <button data-remodal-action="confirm" class="remodal-confirm">ปิด</button>
       </div>
+      <script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
 <script>
         var page=1;
         var player=null;
@@ -64,7 +65,7 @@
                         // console.log(row)
                         // url = row.s3url.replace(".avi", ".mp4");
                         // url = url.replace(".AVI", ".mp4");
-                        $('#allVideos').append('<div class="col-md-4 p-4"><video  preload="metadata" onclick="watchVideo(this,\'https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'\')" class="ur-video" data-url="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'"><source src="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'#t=1" type="video/mp4" /> </video><div class=video-caption><p>'+row.name+'</p><p>'+row.submitter+'</p><p>'+row.thaidate+'</p></div></div>')
+                        $('#allVideos').append('<div class="col-md-4 p-4"><video  preload="auto" onclick="watchVideo(this,\'https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'\')" class="ur-video" data-url="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'"><source src="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com'+row.s3url+'#t=1" type="video/mp4" /> </video><div class=video-caption><p>'+row.name+'</p><p>'+row.submitter+'</p><p>'+row.thaidate+'</p></div></div>')
                     });
                 }
             })
@@ -78,25 +79,25 @@
         })
       });
       function watchVideo(e,url){
-        // if(!player)player=videojs('my-player');
+        if(!player)player=videojs('my-player');
 
-        //         e = e || window.event;
-        //         var videoModal = $('[data-remodal-id=video-modal]').remodal();
-        //         player.reset();
-        //         console.log(url);
-        //         player.src(url)
-        //         player.play();
-        //         videoModal.open();
-        //         return false;
-        if(!player)player=document.getElementById("my-player")
-
+                e = e || window.event;
                 var videoModal = $('[data-remodal-id=video-modal]').remodal();
-                player.src="";
+                player.reset();
                 console.log(url);
-                player.src=url;
+                player.src(url)
                 player.play();
                 videoModal.open();
                 return false;
+        // if(!player)player=document.getElementById("my-player")
+
+        //         var videoModal = $('[data-remodal-id=video-modal]').remodal();
+        //         player.src="";
+        //         console.log(url);
+        //         player.src=url;
+        //         player.play();
+        //         videoModal.open();
+        //         return false;
       }
 </script>
 <style>
