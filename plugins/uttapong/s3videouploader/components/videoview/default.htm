@@ -41,13 +41,12 @@
         <button data-remodal-action="close" class="remodal-close"></button>
         <!-- <h4>Video</h4> -->
        <div id="video-player">
-          <video id="my-player" class="video video-js" data-setup='{}' controls>
+          <video id="my-player" class="video"  controls>
               </video>
        </div>
         <br>
         <button data-remodal-action="confirm" class="remodal-confirm">ปิด</button>
       </div>
-<script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
 <script>
         var page=1;
         var player=null;
@@ -79,20 +78,23 @@
         })
       });
       function watchVideo(e,url){
-        if(!player)player=videojs('my-player');
+        // if(!player)player=videojs('my-player');
 
-                e = e || window.event;
-                // e.preventDefault();
+        //         e = e || window.event;
+        //         var videoModal = $('[data-remodal-id=video-modal]').remodal();
+        //         player.reset();
+        //         console.log(url);
+        //         player.src(url)
+        //         player.play();
+        //         videoModal.open();
+        //         return false;
+        if(!player)player=document.getElementById("my-player")
+
                 var videoModal = $('[data-remodal-id=video-modal]').remodal();
-              //   $("#video-player").val('');
-                player.reset();
-                // var video = document.getElementById('video');
-                // video.src = $(this).data('url');
+                player.src="";
                 console.log(url);
-                player.src(url)
+                player.src=url;
                 player.play();
-              //  video.play();
-              //   // $('#fileLabel').html('เลือกไฟล์ใหม่');
                 videoModal.open();
                 return false;
       }
