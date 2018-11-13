@@ -45,12 +45,13 @@
               </video>
        </div>
         <br>
-        <button data-remodal-action="confirm" class="remodal-confirm">ปิด</button>
+        <button  class="remodal-confirm">ปิด</button>
       </div>
       <script src="https://vjs.zencdn.net/7.3.0/video.js"></script>
 <script>
         var page=1;
         var player=null;
+        var videoModal=null;
       $(document).ready(function(){
         $('#viewMore').click(function(e){
             e.preventDefault();
@@ -72,6 +73,11 @@
         })
         
         var clickEventType=((document.ontouchstart!==null)?'click':'touchstart');
+
+        
+        $(".remodal-confirm").bind(clickEventType, function(e){
+           if(videoModal)videoModal.close();
+          }  );
         $(".ur-video").bind(clickEventType, function(e){
             e.preventDefault();
             watchVideo(e,$(this).data('url'));
@@ -82,7 +88,7 @@
 
                 // e = e || window.event;
                 // if(e)e.preventDefault();
-                var videoModal = $('[data-remodal-id=video-modal]').remodal();
+                videoModal = $('[data-remodal-id=video-modal]').remodal();
                 player.reset();
                 console.log(url);
                 player.src(url)
