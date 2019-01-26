@@ -15,4 +15,21 @@ class Plugin extends PluginBase
     public function registerSettings()
     {
     }
+
+    /**
+     * @return array
+     */
+    public function registerMarkupTags()
+    {
+        return [
+            'functions' => [
+                'locationPluginEnabled' => function () {
+                    return PluginManager::instance()->exists('RainLab.Location');
+                },
+                'subStrThai' => function ($msg,$length) {
+                    return mb_substr($msg, 0, $length, 'UTF-8');
+                },
+            ],
+        ];
+    }
 }
