@@ -15,7 +15,7 @@
                             <source src="https://s3-ap-southeast-1.amazonaws.com/youaremyfirst.com{{ video.s3url }}#t=1" />
                         </video>
                         <div class=video-caption>
-                            <p>@php{{ echo mb_substr($video->name, 0, 15, 'UTF-8'); }}@endphp</p>
+                            <p>{{ subStrThai(video.name,20) }}</p>
                             <p>{{ video.submitter }}</p>
                             <p>{{ video.thaiDate }}</p>
                         </div>

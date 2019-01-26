@@ -158,6 +158,9 @@ class Plugin extends PluginBase
                 'locationPluginEnabled' => function () {
                     return PluginManager::instance()->exists('RainLab.Location');
                 },
+                'subStrThai' => function ($msg,$length) {
+                    return mb_substr($msg, 0, $length, 'UTF-8');
+                },
             ],
         ];
     }
