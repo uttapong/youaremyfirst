@@ -27,7 +27,8 @@ class Plugin extends PluginBase
                     return PluginManager::instance()->exists('RainLab.Location');
                 },
                 'subStrThai' => function ($msg,$length) {
-                    return mb_substr($msg, 0, $length, 'UTF-8');
+                    if(strlen($msg)>$length)return mb_substr($msg."...", 0, $length, 'UTF-8');
+                    return $msg;
                 },
             ],
         ];
